@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  front:
+    build: front
+    env_file:
+      - ./data/config/front.env
+    depends_on:
+        - redis
+    # volumes:
+    #   - ./data/logs_front:/var/logs
+  back:
+    build: back
+    env_file:
+      - ./data/config/back.env
+    depends_on:
+        - redis
+        - front
+    deploy:
+        mode: replicated
+        replicas: 3
+    # volumes:
+    #   - ./data/logs_front:/var/logs
+  redis:
+    image: "redis:alpine"
+    volumes:
+      - ./data/redis:/data
+    entrypoint: redis-server --appendonly yes
+    restart: always

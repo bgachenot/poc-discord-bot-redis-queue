@@ -1,0 +1,2 @@
+discord.py
+aioredis==2.0.0a1
